@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'unsafe-inline'; connect-src 'none'; font-src 'self' data:; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Chengze Huo | Computational Biophysics, AI for Science, biomolecular simulation, protein design, and generative modeling for MD trajectories.">
+  <title>Chengze Huo</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --surface: #ffffff;
+      --surface-2: #eef4ff;
+      --text: #132238;
+      --muted: #5a6b82;
+      --line: #dbe4f0;
+      --primary: #2154d6;
+      --primary-2: #5e84ff;
+      --accent: #0f766e;
+      --shadow: 0 12px 36px rgba(20, 39, 80, 0.08);
+      --radius: 20px;
+      --max: 1180px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1420;
+        --surface: #111b2b;
+        --surface-2: #12233d;
+        --text: #e7eefc;
+        --muted: #9fb0c9;
+        --line: #24334d;
+        --primary: #79a4ff;
+        --primary-2: #a0bfff;
+        --accent: #5eead4;
+        --shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(94,132,255,0.14), transparent 28%),
+        radial-gradient(circle at top left, rgba(33,84,214,0.10), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 12px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      z-index: 100;
+    }
+    .skip-link:focus { left: 12px; }
+
+    .shell {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 28px auto 72px;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      margin-bottom: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 2.6vw, 2.6rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .tagline {
+      margin: 0 0 20px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .quick-links,
+    .nav-list,
+    .highlights {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill-link,
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .pill-link:hover,
+    .nav-link:hover {
+      text-decoration: none;
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--primary) 28%, var(--line));
+      background: var(--surface-2);
+    }
+
+    .sidebar h2 {
+      font-size: 0.95rem;
+      margin: 26px 0 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .main {
+      display: grid;
+      gap: 22px;
+    }
+
+    .card {
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero-copy h2,
+    .section-title {
+      margin: 0 0 12px;
+      font-size: clamp(1.35rem, 2vw, 1.8rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-copy p,
+    .section-copy,
+    .entry p,
+    .pub-meta,
+    .small-note {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 90%, transparent), var(--surface));
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .entry-list {
+      display: grid;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .entry {
+      padding: 18px 18px 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+    }
+
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .entry-title {
+      font-size: 1.04rem;
+      font-weight: 750;
+      margin: 0;
+    }
+
+    .entry-time {
+      color: var(--muted);
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .entry-subtitle {
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .entry ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+      color: var(--muted);
+    }
+
+    .entry li + li { margin-top: 6px; }
+
+    .pub-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .pub {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 65%, transparent), var(--surface));
+    }
+
+    .pub-title {
+      margin: 0 0 8px;
+      font-size: 1.04rem;
+      font-weight: 760;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .badge {
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.93rem;
+      font-weight: 600;
+    }
+
+    .footer {
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.95rem;
+      padding: 8px 0 0;
+    }
+
+    @media (max-width: 980px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+      }
+      .hero,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(calc(100% - 20px), var(--max));
+        margin-top: 10px;
+      }
+      .sidebar,
+      .card {
+        padding: 20px;
+        border-radius: 22px;
+      }
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+      .entry-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="Sidebar">
+      <div class="avatar" aria-hidden="true">CH</div>
+      <h1>Chengze Huo</h1>
+      <p class="subtitle">MPhil Student in Computational Biophysics · HKUST(GZ)</p>
+      <p class="tagline">Computational biophysics, AI for Science, biomolecular simulation, protein design, and generative modeling for MD trajectories.</p>
+
+      <h2>Contact</h2>
+      <ul class="quick-links">
+        <li><a class="pill-link" href="mailto:chuo657@connect.hkust-gz.edu.cn">HKUST(GZ) Email</a></li>
+        <li><a class="pill-link" href="mailto:greenjphysics@gmail.com">Gmail</a></li>
+        <li><a class="pill-link" href="https://orcid.org/0009-0005-9550-7123" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+      </ul>
+
+      <h2>Navigate</h2>
+      <nav aria-label="Section navigation">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#about">Bio</a></li>
+          <li><a class="nav-link" href="#research">Research</a></li>
+          <li><a class="nav-link" href="#publications">Publications</a></li>
+          <li><a class="nav-link" href="#awards">Awards</a></li>
+          <li><a class="nav-link" href="#experience">Experience</a></li>
+          <li><a class="nav-link" href="#skills">Skills</a></li>
+        </ul>
+      </nav>
+
+      <h2>Highlights</h2>
+      <ul class="highlights">
+        <li class="badge">GPA 4.1 / 4.3</li>
+        <li class="badge">3MT Champion</li>
+        <li class="badge">Challenge Cup National First Prize</li>
+        <li class="badge">AI for Science & MD</li>
+      </ul>
+    </aside>
+
+    <main class="main" id="main-content">
+      <section class="card hero" id="about">
+        <div class="hero-copy">
+          <h2>Bio</h2>
+          <p>
+            I am currently an MPhil student in Computational Biophysics at The Hong Kong University of Science and Technology (Guangzhou). My research focuses on computational protein design and biomolecular simulation, with recent interests extending toward AI for Science and diffusion-based generative modeling for molecular dynamics trajectories.
+          </p>
+          <p style="margin-top: 14px;">
+            My recent work studies how PETase recognizes PET surfaces through large-scale molecular simulations, trajectory analysis, and rational engineering. I am also exploring how generative models can accelerate long-timescale MD sampling while preserving structural realism, thermodynamic consistency, and kinetic fidelity.
+          </p>
+          <ul class="badge-row" aria-label="Research interests">
+            <li class="badge">Computational Biophysics</li>
+            <li class="badge">Protein Design</li>
+            <li class="badge">Molecular Dynamics</li>
+            <li class="badge">Diffusion Models</li>
+            <li class="badge">AI for Science</li>
+          </ul>
+        </div>
+        <div class="metrics" aria-label="Key metrics">
+          <div class="metric">
+            <strong>2024–2026</strong>
+            <span class="small-note">MPhil in Computational Biophysics at HKUST(GZ)</span>
+          </div>
+          <div class="metric">
+            <strong>2</strong>
+            <span class="small-note">Research papers listed, including one first-author work under review</span>
+          </div>
+          <div class="metric">
+            <strong>20%</strong>
+            <span class="small-note">Simulation-level improvement in productive binding probability through design strategies</span>
+          </div>
+          <div class="metric">
+            <strong>Top 10%</strong>
+            <span class="small-note">Selected for the PIE Program with Singtel</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="research">
+        <h2 class="section-title">Research</h2>
+        <p class="section-copy">Selected ongoing and recent projects spanning enzyme–polymer recognition, protein engineering, and generative modeling for biomolecular dynamics.</p>
+        <div class="entry-list">
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-title">Binding Mechanism and Rational Engineering of IsPETase on PET Surfaces</h3>
+              <span class="entry-time">Jun 2024 – Dec 2025</span>
+            </div>
+            <p class="entry-subtitle">Coarse-grained molecular simulation · trajectory analysis · protein design</p>
+            <ul>
+              <li>Built coarse-grained PET slab models and IsPETase–PET interfacial systems to study enzyme recognition on polymer surfaces.</li>
+              <li>Combined large-scale molecular dynamics, PCA, and trajectory-based conformational analysis to resolve binding pathways and state transitions.</li>
+              <li>Identified productive versus non-productive recognition routes across enzyme variants and proposed design strategies that improved productive binding probability by nearly 20% in simulation.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-title">Generative Modeling of Biomolecular MD Trajectories with Renormalization-Group Diffusion</h3>
+              <span class="entry-time">Jan 2026 – Present</span>
+            </div>
+            <p class="entry-subtitle">Diffusion models · MD acceleration · kinetic and thermodynamic fidelity</p>
+            <ul>
+              <li>Investigating diffusion-based generative models for biomolecular trajectory generation to reduce the cost of long-timescale MD sampling.</li>
+              <li>Reproduced RGDM and EigenFold modules and analyzed their ability to preserve structural realism together with thermodynamic and kinetic fidelity.</li>
+            </ul>
+          </article>
+
+          <article class="entry">
+            <div class="entry-head">
+              <h3 class="entry-title">Computational Study of the Interplay between Flexibility and Stability in IsPETase for Plastic Degradation</h3>
+              <span class="entry-time">Jul 2023 – May 2024</span>
+            </div>
+            <p class="entry-subtitle">All-atom MD · docking · umbrella sampling</p>
+            <ul>
+              <li>Performed molecular docking of IsPETase with a PET single-chain substrate using AutoDock, followed by all-atom MD simulations in GROMACS.</li>
+              <li>Applied umbrella sampling to calculate the binding free-energy profile of the protein–substrate association process.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="card" id="publications">
+        <h2 class="section-title">Selected Publications</h2>
+        <p class="section-copy">For a future update, this section can be expanded into a full publication list with Google Scholar, arXiv, and code links.</p>
+        <div class="pub-list">
+          <article class="pub">
+            <h3 class="pub-title">Unraveling the Interplay between Stability and Flexibility in the Design of Polyethylene Terephthalate (PET) Hydrolases</h3>
+            <p class="pub-meta">Shiqinrui Xu, <strong>Chengze Huo</strong>, Xiakun Chu* · <em>Journal of Chemical Information and Modeling</em>, 2024, 64(19), 7576–7589.</p>
+            <ul class="badge-row">
+              <li class="badge">Published</li>
+              <li class="badge"><a href="https://doi.org/10.1021/acs.jcim.4c00877" target="_blank" rel="noopener noreferrer">DOI</a></li>
+            </ul>
+          </article>
+
+          <article class="pub">
+            <h3 class="pub-title">Encounter-State Over-Anchoring Governs Productive PETase Binding on PET Surfaces</h3>
+            <p class="pub-meta"><strong>Chengze Huo</strong>, Jun Wang, Xiakun Chu* · Under review, 2026.</p>
+            <ul class="badge-row">
+              <li class="badge">First Author</li>
+              <li class="badge">Under Review</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="card grid-2" id="awards">
+        <div>
+          <h2 class="section-title">Awards & Competitions</h2>
+          <div class="entry-list">
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">Three Minute Thesis (3MT®) Champion</h3>
+                <span class="entry-time">Jun 2025</span>
+              </div>
+              <p>Won the university-level championship and was selected to represent the university in the Asia-Pacific regional final.</p>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">Challenge Cup National First Prize</h3>
+                <span class="entry-time">Nov 2025</span>
+              </div>
+              <p>Built an end-to-end AI workflow integrating Boltzmann-2, ADMET-AI, Reinvent, Qwen LLM, ChEMBL, BindingDB, and PubChem.</p>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">PIE Program Selected Fellow</h3>
+                <span class="entry-time">Dec 2025</span>
+              </div>
+              <p>Selected among 131 applicants (top 10%) for an international innovation program in collaboration with Singtel, Singapore.</p>
+            </article>
+          </div>
+        </div>
+        <div id="experience">
+          <h2 class="section-title">Experience & Education</h2>
+          <div class="entry-list">
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">MPhil in Computational Biophysics</h3>
+                <span class="entry-time">Sept 2024 – Oct 2026</span>
+              </div>
+              <p class="entry-subtitle">The Hong Kong University of Science and Technology (Guangzhou)</p>
+              <p>GPA: 4.1 / 4.3 · Research focus: computational protein design and biomolecular simulation.</p>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">Research Assistant</h3>
+                <span class="entry-time">Jul 2023 – Aug 2024</span>
+              </div>
+              <p class="entry-subtitle">The Hong Kong University of Science and Technology</p>
+              <p>Conducted all-atom molecular dynamics simulations for computational design of PET hydrolases and contributed to a peer-reviewed publication.</p>
+            </article>
+
+            <article class="entry">
+              <div class="entry-head">
+                <h3 class="entry-title">B.S. in Optoelectronic Information Science and Engineering</h3>
+                <span class="entry-time">Sept 2019 – Jun 2023</span>
+              </div>
+              <p class="entry-subtitle">Jilin University</p>
+              <p>GPA: 83.34 / 100 · Rank: 3 / 23.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="entry-list">
+          <article class="entry">
+            <h3 class="entry-title">Computational Biology</h3>
+            <p>Molecular Dynamics: GROMACS, PLUMED · Docking & Modeling: AutoDock, Gaussian, Phenix · Visualization & Analysis: PyMOL, VMD, UCSF ChimeraX, MDAnalysis</p>
+          </article>
+          <article class="entry">
+            <h3 class="entry-title">AI for Science & Databases</h3>
+            <p>AlphaFold, Boltzmann-2, ESM-3, ADMET-AI, Reinvent, ChEMBL, BindingDB, PubChem</p>
+          </article>
+          <article class="entry">
+            <h3 class="entry-title">Programming & Languages</h3>
+            <p>Python, C++, Bash, LabVIEW, Linux environment · English (IELTS 7.5), Mandarin (Native)</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="footer" aria-label="Footer note">
+        <p>This site is intentionally built as a static page for GitHub Pages: no backend, no database, no forms, and no third-party analytics scripts.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
